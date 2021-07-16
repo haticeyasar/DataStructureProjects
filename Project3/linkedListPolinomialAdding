@@ -1,0 +1,120 @@
+# Addition using a list data structure between two polynomials
+# Hatice YASAR
+
+class LinkedList:
+   
+    class _Node:
+        def __init__(self, us, ksayi, prev, next):  
+            self._us = us
+            self._ksayi = ksayi
+            self._prev = prev
+            self._next = next
+
+
+    def __init__(self):
+        """Create an empty list."""
+        self._head = None
+        self._tail = None
+        self._size = 0  # number of elements
+
+    
+
+    def __len__(self):
+      
+        return self._size
+
+    def is_empty(self):
+        
+        return self._size == 0
+
+    def add_first(self, us, ksayi):
+        newest = self._Node(us, ksayi, None, self._head)
+        if self._size == 0:  # liste boş ise
+            self._head = newest
+            self._tail = newest
+        else:  # dolu listenin başına eleman ekle
+            self._head._prev = newest
+            self._head = newest
+        self._size += 1
+
+    def add_last(self, us, ksayi):
+        newest = self._Node(us, ksayi, self._tail, None)
+        self._tail._next = newest
+        self._tail = newest
+        self._size += 1
+
+    def insert(self, us, ksayi):
+        if self._head == None or us > self._head._us:  # if list is empty
+            self.add_first(us, ksayi)
+        elif us < self._tail._us:  # add last
+            self.add_last(us, ksayi)
+        else:  # insert between
+            cur = self._head
+            while cur._next != None and us < cur._us:
+                cur = cur._next
+            newest = self._Node(us, ksayi, cur._prev, cur)
+            cur._prev._next = newest
+            cur._prev = newest
+            self._size += 1
+
+    def sum(self,other):
+        
+        while self._head != None and other._head != None:
+            
+            if other._head._us < self._head._us:
+                print(self._head._ksayi, "x^",self._head._us)
+                self._head = self._head._next
+            elif other.head.us > self.head.us:
+                print(other._head._ksayi, "x^",other._head._us)
+                other._head = other._head._next
+            elif other._head._us == self._head._us:             
+                print(other._head._us,"x^",self._head._ksayi+other._head._ksayi)  
+                self._head = self._head._next
+                other._head = other._head._next
+        
+
+    def print_list(self):
+        while self._head is not None:
+            print(self._head._ksayi, "x^", self._head._us," ",end='')
+            self._head = self._head._next
+
+
+    def _insert_between(self, us, ksayi, predecessor, successor):
+        """Add element e between two existing nodes and return new node."""
+        newest = self._Node(us, ksayi, predecessor,
+                            successor)  # linked to neighbors
+        predecessor._next = newest
+        successor._prev = newest
+        self._size += 1
+        return newest
+
+    def _delete_node(self, us, ksayi, node):
+        """Delete nonsentinel node from the list and return its element."""
+        predecessor = node._prev
+        successor = node._next
+        predecessor._next = successor
+        successor._prev = predecessor
+        self._size -= 1
+        us = node._us  # record deleted element
+        node._prev = node._next = node._us = node._ksayi = None  # deprecate node
+        return us
+
+
+l1 = LinkedList()
+l1.insert(4, 2)
+l1.insert(7, 2)
+l1.insert(6, 4)
+l1.insert(2, 7)
+l1.insert(17, 12)
+print("1.Polinom :")
+l1.print_list()
+l2 = LinkedList()
+l2.insert(4, 2)
+l2.insert(7, 2)
+l2.insert(6, 4)
+l2.insert(2, 7)
+l2.insert(17, 12)
+print('\n')
+print("2.Polinom :")
+l2.print_list()
+l2.sum(l1)
