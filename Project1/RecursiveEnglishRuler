@@ -1,0 +1,54 @@
+
+
+# Ekrana istenen uzunlukta tire yazan ve isimlendiren fonksiyon  
+def draw_line(tick_length, tick_label=''):
+    line = '-' * tick_length
+    if tick_label:
+        line += ' ' + tick_label
+    print(line)
+
+
+# Belirlenen bir merkez noktasına göre
+# ara uzunluklar için tirelerin ekrana yazıldığı fonksiyon
+def draw_interval(center_length):
+   
+    # uzunluk 0 olunca durması için kontrol noktası
+    if center_length > 0:
+       
+        # merkez noktasının üzerinde kalan ara noktaların
+        # tirelerinin çizilmesi için çağrılır
+        draw_interval(center_length - 1)  
+       
+        # merkez noktanın tireleri çizilir
+        draw_line(center_length)
+       
+        # merkez noktasının altında kalan ara noktaların
+        # tirelerinin çizilmesi için çağrılır
+        draw_interval(center_length - 1)
+             
+
+# İstenen inç uzunluğunda ve ana tire uzunluğuna göre ekrana
+# cetvel çıktısını verecek fonksiyon
+def draw_ruler(num_inches, major_length):
+   
+    # Başlangıç noktasını oluşturalım
+    draw_line(major_length, '0')
+   
+   
+    # for döngüsüyle istenen inç uzunluğunda her inç için sırasıyla
+    # ana çizgi ve ara çizgiler çizilecek
+    for i in range(1, 1 + num_inches):
+        draw_interval(major_length - 1)  # inç i için ara uzunluklar çizilir
+        draw_line(major_length, str(i))  # inç i çizilir ve isimlendirilir
+
+
+ # tam sayı inç noktalarının 5 tire ile işaretlendiği
+ # 1 inç uzunluğunda bir cetvel çizilir  
+   
+draw_ruler(1,4)
+print("#" * 20)
+
+# tam sayı inç noktalarının 4 tire ile işaretlendiği
+# 2 inç uzunluğunda bir cetvel çizilir
+draw_ruler(2,4)
+print("#" * 20)
